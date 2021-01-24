@@ -3,8 +3,9 @@ const express = require('express')
 const app = express()
 const port = 3000
 const exphbs = require('express-handlebars')
-const restaurantList = require('./restaurant.json').results
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+const Restaurant = require('./models/restaurant.js')
 
 //set database connection
 mongoose.connect('mongodb://localhost/restaurant-list', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -19,15 +20,19 @@ db.once('open', () => {
 })
 
 //set template engine
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
-app.set('view engine', 'handlebars')
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.set('view engine', 'hbs')
 
-//use static files
+//use static files and body-parser
 app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 //set router of root page
 app.get('/', ((req, res) => {
-  res.render('index', { restaurants: restaurantList })
+  Restaurant.find()
+    .lean()
+    .then(restaurants => res.render('index', { restaurants }))
+    .catch(error => console.error(error))
 }))
 
 //set router of show page
