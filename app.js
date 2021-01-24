@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const Restaurant = require('./models/restaurant.js')
 const features = ['name', 'en_name', 'phone', 'rating', 'google_map', 'category', 'image', 'location', 'description']
+const featureList = ['餐廳中文', '餐廳英文', '電話號碼', '饕客評分', '谷歌地圖', '餐廳類別', '照片網址', '餐廳地點', '餐廳描述']
 
 //set database connection
 mongoose.connect('mongodb://localhost/restaurant-list', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -38,11 +39,12 @@ app.get('/', ((req, res) => {
 
 //set router of new page
 app.get('/restaurants/new', ((req, res) => {
-  res.render('new')
+  res.render('new', { featureList, features })
 }))
 app.post('/restaurants', ((req, res) => {
+  if (req.body.image.length === 0) { req.body.image = 'https://www.teknozeka.com/wp-content/uploads/2020/03/wp-header-logo-33.png' }
   const restaurant = req.body
-  Restaurant.create(restaurant)
+  return Restaurant.create(restaurant)
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 }))
@@ -92,10 +94,24 @@ app.post('/restaurants/:id/delete', (req, res) => {
 //set router of search results
 app.get('/search', ((req, res) => {
   const keyword = req.query.keyword
-  const restaurants = restaurantList.filter(restaurant => {
-    return (restaurant.name.toLowerCase().includes(keyword.toLowerCase()) || restaurant.category.includes(keyword))
+  return Restaurant.find({
+    $or: [
+      {
+        category: {
+          $regex: keyword,
+          $options: 'i'
+        }
+      },
+      {
+        name: {
+          $regex: keyword,
+          $options: 'i'
+        }
+      },
+    ]
   })
-  res.render('index', { restaurants: restaurants, keyword: keyword })
+    .lean()
+    .then(restaurants => res.render('index', { restaurants, keyword }))
 }))
 
 //start and listen on the server

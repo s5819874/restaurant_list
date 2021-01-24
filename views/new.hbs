@@ -1,12 +1,65 @@
-<form action="/restaurants" method="POST">
-  <input type="text" placeholder="name" name="name">
-  <input type="text" placeholder="name_en" name="name_en">
-  <input type="text" placeholder="phone" name="phone">
-  <input type="number" placeholder="rating" name="rating">
-  <input type="text" placeholder="google_map" name="google_map">
-  <input type="text" placeholder="category" name="category">
-  <input type="text" placeholder="image" name="image">
-  <input type="text" placeholder="location" name="location">
-  <input type="text" placeholder="description" name="description">
-  <button type="submit">Create</button>
-</form>
+<div class="form-bg">
+  <form action="/restaurants" method="POST">
+
+    <div class="input-group flex-nowrap pt-2" style="max-width: 50%; margin: auto auto;">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="addon-wrapping">餐廳名稱</span>
+      </div>
+      <input type="text" class="form-control bg-dark text-white" name="name" placeholder="尚未輸入">
+    </div>
+
+    <div class="input-group flex-nowrap pt-2" style="max-width: 50%; margin: auto auto;">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="addon-wrapping">餐廳電話</span>
+      </div>
+      <input type="text" class="form-control bg-dark text-white" name="phone" placeholder="尚未輸入">
+    </div>
+
+    <div class="input-group flex-nowrap pt-2" style="max-width: 50%; margin: auto auto;">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="addon-wrapping">餐廳評分</span>
+      </div>
+      <input type="text" class="form-control bg-dark text-white" name="rating" placeholder="尚未輸入">
+    </div>
+
+    <div class="input-group flex-nowrap pt-2" style="max-width: 50%; margin: auto auto;">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="addon-wrapping">餐廳位置</span>
+      </div>
+      <input type="text" class="form-control bg-dark text-white" name="google_map" placeholder="尚未輸入">
+    </div>
+
+
+    <div class="input-group flex-nowrap pt-2" style="max-width: 50%; margin: auto auto;">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="addon-wrapping">餐廳地址</span>
+      </div>
+      <input type="text" class="form-control bg-dark text-white" name="location" placeholder="尚未輸入">
+    </div>
+
+    <div class="input-group flex-nowrap pt-2" style="max-width: 50%; margin: auto auto;">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="addon-wrapping">餐廳類別</span>
+      </div>
+      <input type="text" class="form-control bg-dark text-white" name="category" placeholder="尚未輸入">
+    </div>
+
+    <div class="input-group flex-nowrap pt-2" style="max-width: 50%; margin: auto auto;">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="addon-wrapping">餐廳描述</span>
+      </div>
+      <input type="text" class="form-control bg-dark text-white" name="description" placeholder="尚未輸入">
+    </div>
+
+    <div class="input-group flex-nowrap pt-2" style="max-width: 50%; margin: auto auto;">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="addon-wrapping">圖片連結</span>
+      </div>
+      <input type="text" class="form-control bg-dark text-white" name="image">
+    </div>
+
+    <div class="d-flex justify-content-center mt-3" style="width: 100%;">
+      <button class="btn btn-danger" type="submit">Create</button>
+    </div>
+  </form>
+</div>
