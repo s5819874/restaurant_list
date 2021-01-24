@@ -35,11 +35,25 @@ app.get('/', ((req, res) => {
     .catch(error => console.error(error))
 }))
 
-//set router of show page
-app.get('/restaurants/:id', ((req, res) => {
-  const restaurant = restaurantList.find(restaurant => restaurant.id.toString() === req.params.id)
-  res.render('show', { restaurant: restaurant })
+//set router of new page
+app.get('/restaurants/new', ((req, res) => {
+  res.render('new')
 }))
+app.post('/restaurants', ((req, res) => {
+  const restaurant = req.body
+  Restaurant.create(restaurant)
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+}))
+
+//set router of show page
+app.get('/restaurants/:id', (req, res) => {
+  const id = req.params.id
+  return Restaurant.findById(id)
+    .lean()
+    .then(restaurant => res.render('show', { restaurant }))
+    .catch(error => console.log(error))
+})
 
 //set router of search results
 app.get('/search', ((req, res) => {
