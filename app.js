@@ -9,6 +9,8 @@ const Restaurant = require('./models/restaurant.js')
 const features = ['name', 'en_name', 'phone', 'rating', 'google_map', 'category', 'image', 'location', 'description']
 const featureList = ['餐廳中文', '餐廳英文', '電話號碼', '饕客評分', '谷歌地圖', '餐廳類別', '照片網址', '餐廳地點', '餐廳描述']
 const methodOverride = require('method-override')
+//引入路由器時，路徑設定為 /routes 就會自動去尋找目錄下叫做 index 的檔案。
+const routes = require('./routes')
 
 //set database connection
 mongoose.connect('mongodb://localhost/restaurant-list', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -26,72 +28,15 @@ db.once('open', () => {
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
-//use static files, body-parser, and method_override
+//use static files, body-parser, method_override, and routes
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
+app.use(routes)
 
-//set router of root page
-app.get('/', ((req, res) => {
-  Restaurant.find()
-    .lean()
-    .then(restaurants => res.render('index', { restaurants }))
-    .catch(error => console.error(error))
-}))
 
-//set router of new page
-app.get('/restaurants/new', ((req, res) => {
-  res.render('new', { featureList, features })
-}))
-app.post('/restaurants', ((req, res) => {
-  if (req.body.image.length === 0) { req.body.image = 'https://www.teknozeka.com/wp-content/uploads/2020/03/wp-header-logo-33.png' }
-  const restaurant = req.body
-  return Restaurant.create(restaurant)
-    .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
-}))
 
-//set router of show page
-app.get('/restaurants/:id', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
-    .lean()
-    .then(restaurant => res.render('show', { restaurant }))
-    .catch(error => console.log(error))
-})
 
-//set router of edit page
-app.get('/restaurants/:id/edit', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
-    .lean()
-    .then(restaurant => res.render('edit', { restaurant }))
-    .catch(error => console.log(error))
-})
-
-app.put('/restaurants/:id', (req, res) => {
-  const id = req.params.id
-  let restaurant_modified = req.body
-  return Restaurant.findById(id)
-    .then(restaurant => {
-      features.forEach(i => {
-        restaurant[i] = restaurant_modified[i]
-      })
-      restaurant.save()
-      return restaurant
-    })
-    .then(() => res.redirect(`/restaurants/${id}`))
-    .catch(error => console.log(error))
-})
-
-//set router of delete
-app.delete('/restaurants/:id', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
-    .then(restaurant => restaurant.remove())
-    .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
-})
 
 //set router of search results
 app.get('/search', ((req, res) => {
