@@ -1,3 +1,15 @@
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+    aria-expanded="false">
+    Dropdown button
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <li><a class="dropdown-item" href="#">Action</a></li>
+    <li><a class="dropdown-item" href="#">Another action</a></li>
+    <li><a class="dropdown-item" href="#">Something else here</a></li>
+  </ul>
+</div>
+
 <!-- search bar -->
 <div class="container search-bar mt-5" style="max-width: 900px;">
   <div class="search-bar-inner">
@@ -12,6 +24,8 @@
     </form>
   </div>
 </div>
+
+
 
 <!-- restaurant list -->
 <div class="container mt-5">
@@ -36,7 +50,7 @@
             <div class="card-footer">
               <a class="btn btn-outline-secondary btn-sm" href="/restaurants/{{ this._id }}">detail</a>
               <a class="btn btn-outline-secondary btn-sm" href="/restaurants/{{ this._id }}/edit">edit</a>
-              <form action="/restaurants/{{ this._id }}/delete" method="POST" style="display: inline;">
+              <form action="/restaurants/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;">
                 <button class="btn btn-outline-secondary btn-sm" type="submit">delete</button>
               </form>
             </div>

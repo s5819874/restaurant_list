@@ -6,7 +6,7 @@
     <div class="row">
       <div class="col-12 col-md-10 mx-auto" id="item">
         <a class="btn btn-outline-danger btn-sm mb-2 mr-2" href="/restaurants/{{ restaurant._id }}/edit">edit</a>
-        <form action="/restaurants/{{ restaurant._id }}/delete" method="POST" style="display: inline;">
+        <form action="/restaurants/{{ restaurant._id }}?_method=DELETE" method="POST" style="display: inline;">
           <button class="btn btn-outline-danger btn-sm mb-2" type="submit">delete</button>
           <p class="mb-1 mt-2">
             <span class="text-light font-weight-bold">

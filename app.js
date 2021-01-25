@@ -8,6 +8,7 @@ const bodyParser = require('body-parser')
 const Restaurant = require('./models/restaurant.js')
 const features = ['name', 'en_name', 'phone', 'rating', 'google_map', 'category', 'image', 'location', 'description']
 const featureList = ['餐廳中文', '餐廳英文', '電話號碼', '饕客評分', '谷歌地圖', '餐廳類別', '照片網址', '餐廳地點', '餐廳描述']
+const methodOverride = require('method-override')
 
 //set database connection
 mongoose.connect('mongodb://localhost/restaurant-list', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -25,9 +26,10 @@ db.once('open', () => {
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
-//use static files and body-parser
+//use static files, body-parser, and method_override
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 //set router of root page
 app.get('/', ((req, res) => {
@@ -67,7 +69,7 @@ app.get('/restaurants/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.post('/restaurants/:id/edit', (req, res) => {
+app.put('/restaurants/:id', (req, res) => {
   const id = req.params.id
   let restaurant_modified = req.body
   return Restaurant.findById(id)
@@ -83,7 +85,7 @@ app.post('/restaurants/:id/edit', (req, res) => {
 })
 
 //set router of delete
-app.post('/restaurants/:id/delete', (req, res) => {
+app.delete('/restaurants/:id', (req, res) => {
   const id = req.params.id
   return Restaurant.findById(id)
     .then(restaurant => restaurant.remove())
