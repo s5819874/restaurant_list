@@ -9,7 +9,7 @@ router.get('/new', ((req, res) => {
   res.render('new', { featureList, features })
 }))
 router.post('/', ((req, res) => {
-  if (req.body.image.length === 0) { req.body.image = 'https://www.teknozeka.com/wp-content/uploads/2020/03/wp-header-logo-33.png' }
+  if (req.body.image.length === 0) { req.body.image = 'https://cdn.iconscout.com/icon/free/png-256/restaurant-1495593-1267764.png' }
   const restaurant = req.body
   return Restaurant.create(restaurant)
     .then(() => res.redirect('/'))

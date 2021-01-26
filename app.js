@@ -23,33 +23,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(routes)
 
-
-
-
-
-//set router of search results
-app.get('/search', ((req, res) => {
-  const keyword = req.query.keyword
-  return Restaurant.find({
-    $or: [
-      {
-        category: {
-          $regex: keyword,
-          $options: 'i'
-        }
-      },
-      {
-        name: {
-          $regex: keyword,
-          $options: 'i'
-        }
-      },
-    ]
-  })
-    .lean()
-    .then(restaurants => res.render('index', { restaurants, keyword }))
-}))
-
 //start and listen on the server
 app.listen(port, () => {
   console.log(`Expres is now running on https://localhost:${port}`)
